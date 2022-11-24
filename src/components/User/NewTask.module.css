@@ -1,0 +1,9 @@
+.new-task {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(#af63f5, #da98f5);
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 0 7px 0 #030303;
+}

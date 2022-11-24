@@ -1,0 +1,26 @@
+.files-list {
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    gap: 10px;
+}
+
+.file-link {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+}
+
+.delete-file-button {
+    background: linear-gradient(#9a1a1a, #f63131);
+    border: none;
+    border-radius: 5px;
+    color: white;
+}
+
+.delete-file-button-disabled {
+    background-color: gray;
+    border: none;
+    border-radius: 5px;
+}

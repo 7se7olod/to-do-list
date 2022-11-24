@@ -1,0 +1,21 @@
+.task-off {
+    background-color: #efb3b3;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 4px 0 #281744;
+}
+
+.task-on {
+    background-color: #ebeb6c;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 4px 0 #281744;
+}

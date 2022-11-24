@@ -1,0 +1,50 @@
+.form-task {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.form-label {
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    color: white;
+}
+
+.form-input {
+    border-radius: 5px;
+    border: none;
+    height: 25px;
+    padding-left: 10px;
+}
+
+.form-button {
+    background: linear-gradient(#5c1b77, #9731f6);
+    padding: 10px;
+    color: white;
+    border-radius: 5px;
+    box-sizing: border-box;
+    border: none;
+}
+
+.form-button:hover {
+    background: linear-gradient(#4c1f75, #7e4e91);
+    cursor: pointer;
+}
+
+.form-button-red {
+    background: linear-gradient(#9a1a1a, #f63131);
+    padding: 10px;
+    color: white;
+    border-radius: 5px;
+    box-sizing: border-box;
+    border: none;
+}
+
+.form-button-red:hover {
+    background: linear-gradient(#641111, #b72424);
+    cursor: pointer;
+}
