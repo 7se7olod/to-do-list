@@ -4,7 +4,7 @@ import ReactDom from "react-dom";
 import FilesList from './FilesList';
 
 
-const DetailInfoTask = ({isVisible = false, task, onClose, id, deleteTask, changeTask}) => {
+const DetailInfoTask = ({isVisible = false, task, onClose, id, deleteTask, changeTask, status}) => {
 
     const ModalInfoTask = () => {
 
@@ -12,6 +12,7 @@ const DetailInfoTask = ({isVisible = false, task, onClose, id, deleteTask, chang
         const [changeTitle, setChangeTitle] = useState(task.title);
         const [changeDescription, setChangeDescription] = useState(task.description);
         const [changeDate, setChangeDate] = useState(new Date(task.date).toLocaleDateString('en-ca'));
+        const [changeStatus, setChangeStatus] = useState(JSON.parse(status));
 
         const changeTitleHandler = (event) => {
             setChangeTitle(event.target.value);
@@ -25,6 +26,11 @@ const DetailInfoTask = ({isVisible = false, task, onClose, id, deleteTask, chang
             setChangeDate(event.target.value);
         };
 
+        const changeStatusHandler = (event) => {
+            setChangeStatus(event.target.checked);
+        };
+
+
         const changeStateInputs = () => {
             if (isDisabledStateInputs) {
                 setIsDisabledStateInputs(false);
@@ -33,6 +39,7 @@ const DetailInfoTask = ({isVisible = false, task, onClose, id, deleteTask, chang
                 task.title = changeTitle;
                 task.description = changeDescription;
                 task.date = changeDate;
+                task.status = changeStatus;
                 changeTask(task);
             }
         };
@@ -69,6 +76,13 @@ const DetailInfoTask = ({isVisible = false, task, onClose, id, deleteTask, chang
                                className={styles['form-input']}
                                disabled={isDisabledStateInputs}
                                onChange={changeDateHandler}/>
+                    </label>
+                    <label>
+                        {changeStatus ? "Задача выполнена" : "Задача не выполнена"}
+                        <input type="checkbox"
+                               checked={changeStatus}
+                               disabled={isDisabledStateInputs}
+                               onChange={changeStatusHandler}/>
                     </label>
                     <FilesList fileTask={task.files}
                                task={task}

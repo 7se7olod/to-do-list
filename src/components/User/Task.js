@@ -29,7 +29,7 @@ const Task = (props) => {
 
     return (
         <div>
-            <div className={checkedTaskDate() ? styles['task-off'] : styles['task-on'] }>
+            <div className={JSON.parse(props.task.status) ? styles.taskPerformed : (checkedTaskDate() ? styles.taskDelay : styles.taskProcess)}>
                 <div>Задача: {props.title}</div>
                 <div>Завершение задачи: {date}</div>
                 <button type='button' onClick={viewingTask}>Просмотр</button>
@@ -41,6 +41,7 @@ const Task = (props) => {
                 onClose={() => setIsVisibleTask(false)}
                 deleteTask={removeTaskItemHandler}
                 changeTask={changeTaskHandler}
+                status={props.task.status}
             />}
         </div>
     );
