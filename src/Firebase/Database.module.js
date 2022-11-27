@@ -13,9 +13,9 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-export const db = getDatabase(app);
+const db = getDatabase(app);
 
-export function loadDatabase(setTasks) {
+function loadDatabase(setTasks) {
     const tasksRef = ref(db, 'tasks/');
     onValue(tasksRef, (snapshot) => {
         if (snapshot.val() === null) {
@@ -26,19 +26,19 @@ export function loadDatabase(setTasks) {
     });
 };
 
-export function removeTaskDatabase(path) {
+function removeTaskDatabase(path) {
     const tasksRef = ref(db, path);
     remove(tasksRef, [path]);
 };
 
-export function updateDatabase(id, changedTask) {
+function updateDatabase(id, changedTask) {
     const tasksRef = ref(db, 'tasks/');
     const updates = {};
     updates[id] = changedTask;
     update(tasksRef, updates);
 };
 
-export function writeTaskData(taskId, taskTitle, taskDescription, taskDate, files) {
+function writeTaskData(taskId, taskTitle, taskDescription, taskDate, files) {
     set(ref(db, 'tasks/' + taskId), {
         id: `${taskId}`,
         title: `${taskTitle}`,
@@ -49,10 +49,12 @@ export function writeTaskData(taskId, taskTitle, taskDescription, taskDate, file
     });
 };
 
-export function updateFiles(filesUpdated, id) {
+function updateFiles(filesUpdated, id) {
     update(ref(db, `tasks/${id}`), {
         files: JSON.stringify(filesUpdated),
     });
 };
+
+export {writeTaskData, loadDatabase, removeTaskDatabase, updateDatabase, updateFiles};
 
 

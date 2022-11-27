@@ -8,10 +8,6 @@ const NewTask = (props) => {
         props.addNewTask(newTask);
     };
 
-    const modalHandler = (popup) => {
-      props.showPopup(popup);
-    };
-
     const [isFormVisible, setIsFormVisible] = useState(false);
 
     const showFormTaskHandler = () => {
@@ -26,7 +22,7 @@ const NewTask = (props) => {
   return (
       <div className={styles['new-task']}>
           {!isFormVisible && <button type='button' onClick={showFormTaskHandler}>Добавить новую задачу</button>}
-          {isFormVisible && <FormTask addNewTask={newTask} modalWindow={modalHandler} onCancel={cancelFormHandler}/>}
+          {isFormVisible && <FormTask addNewTask={newTask} onCancel={cancelFormHandler}/>}
       </div>
   );
 };

@@ -1,5 +1,7 @@
 import React, {useState, Fragment} from "react";
+import ReactDom from "react-dom";
 import styles from './FormTask.module.css';
+import Popup from '../Popup/Popup'
 
 function randomIntegerForID() {
     let rand = 1000000 + Math.random() * (9999999 + 1 - 1000000);
@@ -12,6 +14,8 @@ const FormTask = (props) => {
     const [descriptionTask, setDescriptionTask] = useState('');
     const [dateTask, setDateTask] = useState('');
     const [filesTask, setFilesTask] = useState([]);
+    const initialStatePopup = {isModal: false, title: '', content: ''};
+    const [modalWindow, setModalWindow] = useState(initialStatePopup);
 
     const titleTaskChangeHandler = (event) => {
         setTitleTask(event.target.value);
@@ -31,7 +35,8 @@ const FormTask = (props) => {
             modal.isModal = true;
             modal.title = 'Количество прикрепленных файлов не может быть больше 5';
             modal.content = 'Выберите до 5 файлов';
-            props.modalWindow(modal);
+            // props.modalWindow(modal);
+            setModalWindow(modal);
             return;
         }
         setFilesTask(event.target.files);
@@ -45,7 +50,8 @@ const FormTask = (props) => {
             modal.isModal = true;
             modal.title = 'Некорректный заголовок';
             modal.content = 'Поле с заголовком должно быть заполнено';
-            props.modalWindow(modal);
+            // props.modalWindow(modal);
+            setModalWindow(modal);
             return;
         }
 
@@ -54,7 +60,8 @@ const FormTask = (props) => {
             modal.isModal = true;
             modal.title = 'Некорректное описание';
             modal.content = 'Описание должно быть заполнено';
-            props.modalWindow(modal);
+            // props.modalWindow(modal);
+            setModalWindow(modal);
             return;
         }
 
@@ -63,7 +70,8 @@ const FormTask = (props) => {
             modal.isModal = true;
             modal.title = 'Некорректная дата';
             modal.content = 'Выберите дату';
-            props.modalWindow(modal);
+            // props.modalWindow(modal);
+            setModalWindow(modal);
             return;
         }
 
@@ -126,6 +134,10 @@ const FormTask = (props) => {
                         onClick={props.onCancel}
                         className={styles['form-button-red']}>Отмена</button>
             </form>
+            {ReactDom.createPortal(<Popup isVisible={modalWindow.isModal}
+                                          title={modalWindow.title}
+                                          content={modalWindow.content}
+                                          onClose={() => setModalWindow(initialStatePopup)}/>, document.getElementById('modal'))}
         </Fragment>
     );
 };

@@ -1,51 +1,54 @@
 import React, {useState, useEffect} from "react";
 import styles from './App.module.css';
-import NewTask from "./components/User/NewTask";
-import TaskList from "./components/User/TaskList";
-import Popup from "./components/UI/Popup";
-import {writeTaskData, loadDatabase, removeTaskDatabase, updateDatabase} from './Database.module';
-import {removeTaskObject, addNewTaskObject} from './Storage.module';
+import NewTask from "./components/NewTask/NewTask";
+import TaskList from "./components/TasksList/TaskList";
+import {writeTaskData, loadDatabase, removeTaskDatabase, updateDatabase} from './Firebase/Database.module';
+import {removeTaskObject, addNewTaskObject} from './Firebase/Storage.module';
 
 
 function App() {
-
-    const initialStatePopup = {isModal: false, title: '', content: ''};
-    const [isModal, setIsModal] = useState(initialStatePopup);
+    
     const [tasks, setTasks] = useState([]);
-
-    useEffect(() => {
+    
+    /** Загрузка всех задач из БД */
+    const firstLoadingTasks = () => {
         loadDatabase(setTasks);
-    }, []);
-
-    const showPopupHandler = (modal) => {
-        setIsModal(modal);
     };
 
+    /** Один запуск загрузки задач (второй аргумент для ограниченя повторных запусков) */
+    useEffect(firstLoadingTasks, []);
+
+    /** Добавление новой задачи в список */
     const addNewTaskHandler = (newTask) => {
 
-        let fileNames = [];
+        let fileNames = []; /** Пустой массив названий файлов для записи в database*/
+        /** Проходимся по всем выбранным файлам.*/
         for (let i = 0; i < newTask.files.length; i++) {
-            fileNames.push(newTask.files[i].name);
-            addNewTaskObject(newTask.files[i], `${newTask.id}/${newTask.files[i].name}`)
+            fileNames.push(newTask.files[i].name); /** Добавляем имена файлов в массив fileNames*/
+            addNewTaskObject(newTask.files[i], `${newTask.id}/${newTask.files[i].name}`) /** Добавляем сами файлы по назначенному пути в FB Storage */
         }
 
+        /** Записываем все данные в FB database*/
         writeTaskData(newTask.id, newTask.title, newTask.description, newTask.date, fileNames);
     };
 
+    /** Удаление задачи из списка */
     const deletedTaskHandler = (taskRemove) => {
 
-        const nameFilesPaths = Object(JSON.parse(taskRemove.files));
-        const path = `tasks/${taskRemove.id}`;
+        const nameFilesPaths = Object(JSON.parse(taskRemove.files)); /** Массив названий файлов */
+        const path = `tasks/${taskRemove.id}`;  /** Путь до конкретной задачи */
 
-        for (let i = 0; i < nameFilesPaths.length; i++) {
+        for (let i = 0; i < nameFilesPaths.length; i++) { /** Удаление всех файлов из задачи в storage */
             removeTaskObject(`${taskRemove.id}/${nameFilesPaths[i]}`);
         };
 
-        removeTaskDatabase(path);
-        setTasks(tasks.filter(taskItem => taskItem.id !== taskRemove.id));
+        removeTaskDatabase(path); /** Удаление задачи из database */
+        setTasks(tasks.filter(taskItem => taskItem.id !== taskRemove.id)); /** Удаляем задачу по id задачи */
     };
 
+    /** Изменение задачи из списка*/
     const changeTaskHandler = (changedTask) => {
+        /** Обновление задачи по id */
         updateDatabase(changedTask.id, changedTask)
     };
 
@@ -53,15 +56,10 @@ function App() {
     return (
         <React.Fragment>
             <div className={styles['main']}>
-                <NewTask addNewTask={addNewTaskHandler}
-                         showPopup={showPopupHandler}/>
+                <NewTask addNewTask={addNewTaskHandler}/>
                 <TaskList tasks={tasks}
                           removeTaskItem={deletedTaskHandler}
                           changeTaskItem={changeTaskHandler}/>
-                <Popup isVisible={isModal.isModal}
-                       title={isModal.title}
-                       content={isModal.content}
-                       onClose={() => setIsModal(initialStatePopup)}/>
             </div>
         </React.Fragment>
     );

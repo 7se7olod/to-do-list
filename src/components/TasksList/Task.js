@@ -1,6 +1,6 @@
 import styles from './Task.module.css';
 import React, {useState} from "react";
-import DetailInfoTask from "./DetailInfoTask";
+import DetailInfoTask from "../EditTask/DetailInfoTask";
 
 const Task = (props) => {
 

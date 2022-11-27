@@ -1,6 +1,6 @@
 import styles from './FilesList.module.css';
-import {updateFiles} from '../../Database.module';
-import {removeTaskObject, addHrefFiles} from '../../Storage.module';
+import {updateFiles} from '../../Firebase/Database.module';
+import {removeTaskObject, addHrefFiles} from '../../Firebase/Storage.module';
 
 const FilesList = (props) => {
 

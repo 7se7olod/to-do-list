@@ -2,11 +2,11 @@ import {getStorage, ref, uploadBytes, deleteObject, getDownloadURL} from 'fireba
 
 const storage = getStorage();
 
-export function createRef(path) {
+function createRef(path) {
     return ref(storage, path)
 }
 
-export function removeTaskObject(deletePath) {
+function removeTaskObject(deletePath) {
     deleteObject(createRef(deletePath)).then(() => {
         console.log(`Файл удален!`);
     }).catch((error) => {
@@ -14,13 +14,13 @@ export function removeTaskObject(deletePath) {
     });
 };
 
-export function addNewTaskObject(files, addPath) {
+function addNewTaskObject(files, addPath) {
     uploadBytes(createRef(addPath), files).then((snapshot) => {
         console.log(`Файл "${files.name}" отправлен`);
     });
 };
 
-export function addHrefFiles(id, files, documentClassLinkFile) {
+function addHrefFiles(id, files, documentClassLinkFile) {
 
     for (let i = 0; i < files.length; i++) {
 
@@ -35,8 +35,10 @@ export function addHrefFiles(id, files, documentClassLinkFile) {
     };
 };
 
-export function uploadFiles(storageRef, files) {
+function uploadFiles(storageRef, files) {
     uploadBytes(storageRef, files).then((snapshot) => {
         console.log(`Файл "${files.name}" отправлен`);
     });
-} ;
+};
+
+export {removeTaskObject, addNewTaskObject, addHrefFiles, uploadFiles};
