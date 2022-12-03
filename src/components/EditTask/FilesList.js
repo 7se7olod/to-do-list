@@ -4,8 +4,7 @@ import {removeTaskObject, addHrefFiles} from '../../Firebase/Storage.module';
 
 const FilesList = (props) => {
 
-    const filesParsed = JSON.parse(props.fileTask);
-    let files = filesParsed;
+    const files = JSON.parse(props.fileTask);
 
     addHrefFiles(props.task.id, files, document.getElementsByClassName('linkFile'));
 

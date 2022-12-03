@@ -33,17 +33,16 @@ function removeTaskDatabase(path) {
 
 function updateDatabase(id, changedTask) {
     const tasksRef = ref(db, 'tasks/');
-    const updates = {};
-    updates[id] = changedTask;
+    const updates = { [id]: changedTask };
     update(tasksRef, updates);
 };
 
 function writeTaskData(taskId, taskTitle, taskDescription, taskDate, files) {
-    set(ref(db, 'tasks/' + taskId), {
+    set(ref(db, `tasks/${taskId}`), {
         id: `${taskId}`,
-        title: `${taskTitle}`,
-        description: `${taskDescription}`,
-        date: `${taskDate.toLocaleDateString('en-ca')}`,
+        title: taskTitle,
+        description: taskDescription,
+        date: taskDate.toLocaleDateString('en-ca'),
         files: JSON.stringify(files),
         status: `false`,
     });

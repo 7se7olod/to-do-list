@@ -23,13 +23,17 @@ const Task = (props) => {
         props.changeTaskItem(changedTask);
     };
 
-    const checkedTaskDate = () => {
-      return props.date <= new Date().toLocaleDateString('en-ca');
-    };
+    const getTaskClass = () => {
+        if (JSON.parse(props.task.status)) {
+            return styles.taskPerformed;
+        }
+
+        return props.date <= new Date().toLocaleDateString('en-ca') ? styles.taskDelay : styles.taskProcess;
+    }
 
     return (
         <div>
-            <div className={JSON.parse(props.task.status) ? styles.taskPerformed : (checkedTaskDate() ? styles.taskDelay : styles.taskProcess)}>
+            <div className={getTaskClass()}>
                 <div>Задача: {props.title}</div>
                 <div>Завершение задачи: {date}</div>
                 <button type='button' onClick={viewingTask}>Просмотр</button>

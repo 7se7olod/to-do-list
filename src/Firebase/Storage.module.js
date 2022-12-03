@@ -7,6 +7,8 @@ function createRef(path) {
 }
 
 function removeTaskObject(deletePath) {
+    // return deleteObject(createRef(deletePath));
+
     deleteObject(createRef(deletePath)).then(() => {
         console.log(`Файл удален!`);
     }).catch((error) => {

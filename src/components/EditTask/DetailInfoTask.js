@@ -32,15 +32,10 @@ const DetailInfoTask = ({isVisible = false, task, onClose, id, deleteTask, chang
 
 
         const changeStateInputs = () => {
-            if (isDisabledStateInputs) {
-                setIsDisabledStateInputs(false);
-            } else if (!isDisabledStateInputs) {
-                setIsDisabledStateInputs(true);
-                task.title = changeTitle;
-                task.description = changeDescription;
-                task.date = changeDate;
-                task.status = changeStatus;
-                changeTask(task);
+            setIsDisabledStateInputs(!isDisabledStateInputs);
+
+            if (!isDisabledStateInputs) {
+                changeTask({ title: changeTitle, description: changeDescription, date: changeDate, status: changeStatus });
             }
         };
 
@@ -50,7 +45,7 @@ const DetailInfoTask = ({isVisible = false, task, onClose, id, deleteTask, chang
         };
 
         return (
-            <div className={styles['main-detail-task']}>
+            <div className="main-detail-task">
                 <div className={styles['main-backdrop']} onClick={onClose}></div>
                 <form className={styles['form-task']}>
                     <label className={styles['form-label']}>

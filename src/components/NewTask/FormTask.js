@@ -43,35 +43,23 @@ const FormTask = (props) => {
     };
 
 
-    function checkedInputs(title, description) {
+    function checkedInputs(title, description, dateTask) {
 
-        if (title.length === 0) {
-            let modal = {};
-            modal.isModal = true;
-            modal.title = 'Некорректный заголовок';
-            modal.content = 'Поле с заголовком должно быть заполнено';
+        if (!title) {
             // props.modalWindow(modal);
-            setModalWindow(modal);
+            setModalWindow({ isModal: true, title: 'Некорректный заголовок', content: 'Поле с заголовком должно быть заполнено' });
             return;
         }
 
-        if (description.length === 0) {
-            let modal = {};
-            modal.isModal = true;
-            modal.title = 'Некорректное описание';
-            modal.content = 'Описание должно быть заполнено';
+        if (!description) {
             // props.modalWindow(modal);
-            setModalWindow(modal);
+            setModalWindow({ isModal: true, title: 'Некорректное описание', content: 'Описание должно быть заполнено' });
             return;
         }
 
-        if (dateTask === '') {
-            let modal = {};
-            modal.isModal = true;
-            modal.title = 'Некорректная дата';
-            modal.content = 'Выберите дату';
+        if (!dateTask) {
             // props.modalWindow(modal);
-            setModalWindow(modal);
+            setModalWindow({ isModal: true, title: 'Некорректная дата', content: 'Выберите дату' });
             return;
         }
 
@@ -80,15 +68,14 @@ const FormTask = (props) => {
 
 
     const submitHandler = () => {
-
-        if (checkedInputs(titleTask, descriptionTask)) {
-            const newTask = {};
-            newTask.id = randomIntegerForID().toString();
-            newTask.title = titleTask;
-            newTask.description = descriptionTask;
-            newTask.date = new Date(dateTask);
-            newTask.files = filesTask;
-            props.addNewTask(newTask);
+        if (checkedInputs(titleTask, descriptionTask, dateTask)) {
+            props.addNewTask({
+                id: randomIntegerForID().toString(),
+                title: titleTask,
+                description: descriptionTask,
+                date: new Date(dateTask),
+                files: filesTask,
+            });
             setTitleTask('');
             setDescriptionTask('');
             setDateTask('');

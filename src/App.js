@@ -23,10 +23,10 @@ function App() {
 
         let fileNames = []; /** Пустой массив названий файлов для записи в database*/
         /** Проходимся по всем выбранным файлам.*/
-        for (let i = 0; i < newTask.files.length; i++) {
-            fileNames.push(newTask.files[i].name); /** Добавляем имена файлов в массив fileNames*/
-            addNewTaskObject(newTask.files[i], `${newTask.id}/${newTask.files[i].name}`) /** Добавляем сами файлы по назначенному пути в FB Storage */
-        }
+        newTask.files.forEach(file => {
+            fileNames.push(file.name); /** Добавляем имена файлов в массив fileNames*/
+            addNewTaskObject(file, `${newTask.id}/${file.name}`) /** Добавляем сами файлы по назначенному пути в FB Storage */
+        });
 
         /** Записываем все данные в FB database*/
         writeTaskData(newTask.id, newTask.title, newTask.description, newTask.date, fileNames);
@@ -38,9 +38,7 @@ function App() {
         const nameFilesPaths = Object(JSON.parse(taskRemove.files)); /** Массив названий файлов */
         const path = `tasks/${taskRemove.id}`;  /** Путь до конкретной задачи */
 
-        for (let i = 0; i < nameFilesPaths.length; i++) { /** Удаление всех файлов из задачи в storage */
-            removeTaskObject(`${taskRemove.id}/${nameFilesPaths[i]}`);
-        };
+        nameFilesPaths.forEach(name => removeTaskObject(`${taskRemove.id}/${name}`));
 
         removeTaskDatabase(path); /** Удаление задачи из database */
         setTasks(tasks.filter(taskItem => taskItem.id !== taskRemove.id)); /** Удаляем задачу по id задачи */
